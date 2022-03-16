@@ -1,0 +1,29 @@
+﻿public enum ItemType
+{
+    item,
+    block,
+    tool,
+    weapon,
+    weaponRanged,
+    ammo,
+    armor,
+    helmet,
+    chestplate,
+    leggings,
+    boots,
+    glove,
+    ring,
+    unique,
+    pickaxe,
+    shovel,
+    axe,
+    sword,
+    longsword,
+    knife,
+    throwingknife,
+    bow,
+    arrow,
+    gun,
+    none
+
+}
