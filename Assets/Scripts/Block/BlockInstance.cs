@@ -5,12 +5,12 @@ using UnityEngine;
 public class BlockInstance 
 {
     public BlockData blockData;
-    public short x;
-    public short y;
+    public int x;
+    public int y;
     public GameObject GO;
     public bool isValid = false;
 
-    public BlockInstance(BlockData d, short mx, short my) 
+    public BlockInstance(BlockData d, int mx, int my) 
     {
         blockData = d;
         x = mx;
@@ -18,7 +18,7 @@ public class BlockInstance
         isValid = true;
     }
 
-    public BlockInstance(BlockData d, short mx, short my, GameObject g)
+    public BlockInstance(BlockData d, int mx, int my, GameObject g)
     {
         blockData = d;
         x = mx;

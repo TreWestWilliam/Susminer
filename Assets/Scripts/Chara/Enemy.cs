@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : CharacterBase
 {
     EnemyAI ai;
-    public float health;
-    public float maxHealth;
     public float resist;
     public float immunityTime;
     public float timeout;
+    private string enemyName;
     GameObject target;
+    public float enemyDamage;
 
     bool alwaysAggro;
     bool canWearArmor;
@@ -19,17 +19,19 @@ public class Enemy : MonoBehaviour
 
     static List<Enemy> enemies;
 
-    public void Damage(float dmg) 
+    public string getName() { return enemyName; }
+
+    public override void Damage(float dmg) 
     {
         if (timeout <= 0)
         {
             if (resist > 0)
             {
-                health -= (dmg * resist);
+                HP -= (Mathf.Abs(dmg) * resist) ;
             }
             else
             {
-                health -= dmg;
+                HP -= dmg  ;
             }
             timeout = immunityTime;
         }
@@ -41,27 +43,28 @@ public class Enemy : MonoBehaviour
 
         DeathCheck();
     }
-    public void DeathCheck() 
+
+    public override void Die() 
     {
-        if (health <= 0) 
-        {
-            Die();
-        }
-    }
-    public void Die() 
-    {
-        Debug.Log("Died!");
-        Destroy(gameObject);
+        Debug.Log($"{enemyName} Died!");
+        //Destroy(gameObject);
     }
 
     public Enemy() 
     {
-        health = 100;
-        maxHealth = 100;
+        HP = 100;
+        maxHP = HP;
         resist = 0;
-        alwaysAggro = true;
+        strength = 10;
+        magic = 10;
+        faith = 10;
+        dexterity = 10;
+           alwaysAggro = true;
         canWearArmor = false;
+        enemyName = "unnamed";
+        enemyDamage = 10f;
     }
+
     void Update() 
     {
         if (timeout > 0) 

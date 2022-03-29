@@ -9,11 +9,26 @@ public class TestAI : MonoBehaviour
     public BoxCollider2D myCollider;
     public BoxCollider2D LeftCollider;
     public BoxCollider2D RightCollider;
+
+    public bool isGrounded;
+    public bool leftTrigger;
+    public bool rightTrigger;
+
+    public LeftForwarder left;
+    public RightForwarder right;
+
     int state = 3;
     float roamTimer = 0;
     public float speed = 1.5f;
     public float jumpPower = 25;
     public GameObject target;
+
+    Enemy thisEnemy;
+
+    public float testhp;
+
+    public Player ply;
+
     /// <summary>
     ///state 0 = choosing where to go
     ///state 1 = moving left
@@ -25,12 +40,39 @@ public class TestAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        thisEnemy = gameObject.GetComponent(typeof(Enemy)) as Enemy;
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        testhp = thisEnemy.getHP();
+        if ((leftTrigger || rightTrigger)) 
+        {
+            if (leftTrigger)
+            {
+                if (left.lastCollided.gameObject.GetComponent(typeof(Player)) != null) 
+                {
+                    ply = left.lastCollided.gameObject.GetComponent(typeof(Player)) as Player;
+                    ply.Damage(thisEnemy.enemyDamage);
+                }
+            }
+            if (rightTrigger) 
+            {
+                if (right.lastCollided.gameObject.GetComponent(typeof(Player)) != null) 
+                {
+                    ply = right.lastCollided.gameObject.GetComponent(typeof(Player)) as Player;
+                    ply.Damage(thisEnemy.enemyDamage);
+                }
+            }
+            if ( ( (right.lastCollided.gameObject.tag == "Block") || (left.lastCollided.gameObject.tag == "Block") ) && isGrounded) 
+            {
+                jump();
+            }
+             
+        }
+
         if (state == 0)
         {
             int coinflip = (int)(Random.value * 2);
@@ -119,21 +161,17 @@ public class TestAI : MonoBehaviour
     {
         myBody.AddForce(transform.up * jumpPower);
     }
-
+    /*
     void OnCollisionEnter(Collision col) 
     {
         jump();
         Debug.Log("test");
     }
-
+    */
+    /*
     void OnTriggerEnter2D(Collider2D col) 
     { 
     
     }
-
-    void OnTriggerStay2D(Collider2D col)
-    {
-        Debug.Log("GameObject1 collided with " + col.name);
-        jump();
-    }
+    */
 }
