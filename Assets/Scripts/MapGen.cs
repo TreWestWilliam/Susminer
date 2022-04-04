@@ -34,7 +34,7 @@ public class MapGen : MonoBehaviour
 
     void Start() 
     {
-        blocks = blockManager.blocks;
+        
     }
 
     int mapWidth()
@@ -74,7 +74,7 @@ public class MapGen : MonoBehaviour
         return th + 1;
     }
 
-    public async void HeatMap()
+    public void HeatMap()
     {
         int iterations = 200;
         int iiterations = iterations;
@@ -566,7 +566,7 @@ public class MapGen : MonoBehaviour
         }
     }
 
-    public async void GenerateMap()
+    public void GenerateMap()
     {
         if (debugGeneration)
         {

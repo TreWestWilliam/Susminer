@@ -9,16 +9,6 @@ public class BlockManager : MonoBehaviour
     public ArrayList blocks = new ArrayList();
     public ArrayList map = new ArrayList();
 
-    Color r9 = new Color(229, 0, 26);
-    Color r8 = new Color(204, 0, 51);
-    Color r7 = new Color(178, 0, 77);
-    Color r6 = new Color(153, 0, 102);
-    Color r5 = new Color(127, 0, 127);
-    Color r4 = new Color(102, 0, 153);
-    Color r3 = new Color(77, 0, 178);
-    Color r2 = new Color(51, 0, 204);
-    Color r1 = new Color(26, 0, 229);
-
     public AudioSource audioSource;
 
     public Sprite[] colorsprites;
@@ -112,7 +102,7 @@ public class BlockManager : MonoBehaviour
         selector = CreateSelector();
 
         //HeatMap();
-
+        mapGen.blocks = blocks;
         mapGen.GenerateMap();
         map = mapGen.map;
         CreateMap();
@@ -284,7 +274,7 @@ public class BlockManager : MonoBehaviour
         int selectx = (int)Mathf.Floor((selector.transform.position.x / 1.28f) + .5f);
         int selecty = (int)Mathf.Floor((selector.transform.position.y / 1.28f) + .5f);
 
-        BlockInstance bi = new BlockInstance(debug, (int)selectx, (int)selecty);
+        BlockInstance bi = new BlockInstance(debug, selectx, selecty);
         GameObject go = new GameObject("block X" + selectx + "Y" + selecty + bd.blockSprite);
         go.tag = "Block";
 
@@ -364,7 +354,7 @@ public class BlockManager : MonoBehaviour
 
         //hoveredBlock = new BlockInstance(debug,0,0);
         //hoveredBlock.GO = GameObject.Find("block1debug (UnityEngine.Sprite)");
-        if (toolItem.miningMultiplier == 0 || toolItem.miningMultiplier == null)
+        if (toolItem.miningMultiplier == 0)
         {
             destroyBlock();
             return;

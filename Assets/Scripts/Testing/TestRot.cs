@@ -8,7 +8,7 @@ public class TestRot : MonoBehaviour
     public Vector3 mousePos;
 
     Quaternion m_MyQuaternion;
-    float m_Speed = 1.0f;
+    //float m_Speed = 1.0f;
 
     // Start is called before the first frame update
     void Start()

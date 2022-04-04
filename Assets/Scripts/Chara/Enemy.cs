@@ -8,16 +8,23 @@ public class Enemy : CharacterBase
     public float resist;
     public float immunityTime;
     public float timeout;
-    private string enemyName;
+    public string enemyName;
     GameObject target;
+    public GameObject body;
     public float enemyDamage;
 
-    bool alwaysAggro;
-    bool canWearArmor;
+    public bool alwaysAggro; // Always aggro is for TestAi stuff
+    public bool aggro; // This swaps to true when hit, always aggro will overrite this
+    public bool canWearArmor;
+    private bool isDead =false;
 
-    bool invincibilityFrame = false;
+    public bool showHealth = false;
 
-    static List<Enemy> enemies;
+    public bool invincibilityFrame = false;
+
+    //static List<Enemy> enemies;
+
+    public bool getDead() { return isDead; }
 
     public string getName() { return enemyName; }
 
@@ -38,6 +45,8 @@ public class Enemy : CharacterBase
         else
         { 
         }
+        aggro = true;
+        showHealth = true;
 
         Debug.Log($"Was hit for {dmg}");
 
@@ -47,22 +56,30 @@ public class Enemy : CharacterBase
     public override void Die() 
     {
         Debug.Log($"{enemyName} Died!");
-        //Destroy(gameObject);
+        isDead = true;
+        Destroy(body);
     }
+    public EnemyAI getAi() { return ai; }
+    public GameObject getTarget() { return target; }
+    public void setTarget(GameObject t) { target = t; }
 
     public Enemy() 
     {
-        HP = 100;
+        HP = 10;
         maxHP = HP;
         resist = 0;
         strength = 10;
         magic = 10;
         faith = 10;
         dexterity = 10;
-           alwaysAggro = true;
+        immunityTime = .5f;
+        alwaysAggro = true;
+        aggro = false;
         canWearArmor = false;
         enemyName = "unnamed";
         enemyDamage = 10f;
+        ai = EnemyAI.zombie;
+
     }
 
     void Update() 

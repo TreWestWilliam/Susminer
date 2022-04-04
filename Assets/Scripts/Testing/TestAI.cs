@@ -9,10 +9,19 @@ public class TestAI : MonoBehaviour
     public BoxCollider2D myCollider;
     public BoxCollider2D LeftCollider;
     public BoxCollider2D RightCollider;
+    public CircleCollider2D alertCollider;
+    public CircleCollider2D aggroCollider;
+    public GameObject healthBarOne;
+    public GameObject healthBarTwo;
+
+    public BoxCollider2D playerCollider;
 
     public bool isGrounded;
     public bool leftTrigger;
     public bool rightTrigger;
+    public bool alertTrigger;
+    public bool aggroTrigger;
+    public bool isAggro;
 
     public LeftForwarder left;
     public RightForwarder right;
@@ -48,6 +57,26 @@ public class TestAI : MonoBehaviour
     void Update()
     {
         testhp = thisEnemy.getHP();
+
+        if (thisEnemy.getDead()) 
+        {
+            state = 4;
+        }
+
+        healthBar();
+
+        alertTrigger = alertCollider.IsTouching(playerCollider);
+        aggroTrigger = aggroCollider.IsTouching(playerCollider);
+
+
+        if ( (thisEnemy.alwaysAggro && alertTrigger) || thisEnemy.aggro) 
+        {
+            target = playerCollider.gameObject;
+            state = 3;
+        }
+
+
+
         if ((leftTrigger || rightTrigger)) 
         {
             if (leftTrigger)
@@ -73,87 +102,120 @@ public class TestAI : MonoBehaviour
              
         }
 
-        if (state == 0)
+        stateManager();
+        
+    }
+
+    void stateManager() 
+    {
+        switch (state) 
+        {
+            case 0: chooseDirection(); break;
+            case 1: roamLeft();break;
+            case 2:roamRight();break;
+            case 3:chaseTarget();break;
+        }
+    }
+
+    void chooseDirection() 
+    {
+        int coinflip = (int)(Random.value * 2);
+
+        if (coinflip == 1)
+        {
+            state = 1;
+
+        }
+        else
+        {
+            state = 2;
+
+        }
+    }
+    void roamLeft() 
+    {
+       if (myBody.velocity.x > (-1 * speed))
+            myBody.AddForce(new Vector2((-speed), 0));
+        roamTimer += Time.deltaTime;
+        if (roamTimer > 3)
         {
             int coinflip = (int)(Random.value * 2);
-
             if (coinflip == 1)
             {
-                state = 1;
-
+                roamTimer = 0;
             }
             else
             {
-                state = 2;
+                roamTimer = 0;
+                state = 0;
+            }
+        }
+    }
 
-            }
-        }
-        else if (state == 1)
+    void roamRight() 
+    {
+        if (myBody.velocity.x < speed)
         {
-            if (myBody.velocity.x > (-1 * speed))
-                myBody.AddForce(new Vector2((-speed), 0));
-            roamTimer += Time.deltaTime;
-            if (roamTimer > 3)
+            myBody.AddForce(new Vector2(speed, 0));
+        }
+        roamTimer += Time.deltaTime;
+        if (roamTimer > 3)
+        {
+            int coinflip = (int)(Random.value * 2);
+            if (coinflip == 1)
             {
-                int coinflip = (int)(Random.value * 2);
-                if (coinflip == 1)
-                {
-                    roamTimer = 0;
-                }
-                else
-                {
-                    roamTimer = 0;
-                    state = 0;
-                }
+                roamTimer = 0;
+            }
+            else
+            {
+                roamTimer = 0;
+                state = 0;
             }
         }
-        else if (state == 2)
+    }
+
+    void chaseTarget() 
+    {
+        Transform tar = target.transform; // Set Target
+
+        if (tar.position.x - 2 > transform.position.x) // If  must go right
         {
             if (myBody.velocity.x < speed)
             {
-                myBody.AddForce(new Vector2(speed, 0));
-            }
-            roamTimer += Time.deltaTime;
-            if (roamTimer > 3)
-            {
-                int coinflip = (int)(Random.value * 2);
-                if (coinflip == 1)
-                {
-                    roamTimer = 0;
-                }
-                else
-                {
-                    roamTimer = 0;
-                    state = 0;
-                }
+                myBody.AddForce(new Vector2(speed, 0)); // Go right
             }
         }
-        else if (state == 3)
+        else if (tar.position.x + 2 < transform.position.x) // Else
         {
-            Transform tar = target.transform; // Set Target
-
-            if (tar.position.x - 2.5 > transform.position.x) // If  must go right
+            if (myBody.velocity.x > -speed)
             {
-                if (myBody.velocity.x < speed)
-                {
-                    myBody.AddForce(new Vector2(speed, 0)); // Go right
-                }
-            }
-            else if (tar.position.x + 2.5 < transform.position.x) // Else
-            {
-                if (myBody.velocity.x > -speed)
-                {
-                    myBody.AddForce(new Vector2(-speed, 0)); // go left
-                }
-            }
-            else
-            {
-                myBody.AddForce(new Vector2(-myBody.velocity.x, -myBody.velocity.y));
+                myBody.AddForce(new Vector2(-speed, 0)); // go left
             }
         }
-        else if (state == 4) 
+        else
         {
+            myBody.AddForce(new Vector2(-myBody.velocity.x, -myBody.velocity.y));
+        }
 
+        if (!aggroTrigger) 
+        {
+            state = 0;
+            thisEnemy.aggro = false;
+        }
+    }
+
+    void healthBar() 
+    {
+        if (thisEnemy.showHealth)
+        {
+            healthBarOne.SetActive(true);
+            healthBarTwo.SetActive(true);
+
+            healthBarTwo.transform.localScale = new Vector3( ( thisEnemy.getHP() / thisEnemy.getMaxHP() ) *0.95f , .8f, 1);
+        }
+        else 
+        {
+            healthBarOne.SetActive(false);
         }
     }
 

@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1740718835}
   - component: {fileID: 1740718834}
+  - component: {fileID: 1740718836}
   m_Layer: 0
   m_Name: Clouds
   m_TagString: Untagged
@@ -180,15 +181,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 4e5a4cce0bddde447a145bad5b370bfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1740718835
@@ -199,12 +200,52 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740718833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.85631, y: 14.311783, z: -9645.046}
+  m_LocalPosition: {x: 0, y: -1.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1740718836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740718833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ac5c3ce3669c34aaaca05e418f7fff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  windAngle: 0
+  maximumWindSpeed: 0.05
+  windSpeedX: 0
+  windSpeedY: 0
+  spriteR: {fileID: 1740718834}
+  camera: {fileID: 1962617397}
+  night: {r: 0.7830189, g: 0.07756319, b: 0.51178694, a: 1}
+  day: {r: 0, g: 0.17001879, b: 0.5849056, a: 1}
+  setrise: {r: 0.21137415, g: 0.21283773, b: 0.4716981, a: 1}
+  azure: {r: 0.25943398, g: 0.33719113, b: 1, a: 1}
+  skyBlue: {r: 1, g: 0.4671533, b: 0.2117647, a: 1}
+  cobolt: {r: 0.0048570633, g: 0, b: 1, a: 1}
+  skyColor: {r: 0.22746918, g: 0, b: 0.24528301, a: 1}
+  bottomSky: {r: 0.9987321, g: 0, b: 1, a: 1}
+  bottomInt: 200
+  topInt: 500
+  starColor: {r: 1, g: 0.9935925, b: 0.8537736, a: 1}
+  cloudMin: 5
+  cloudMax: 10
+  cloudCount: 0
+  cloudColor: {r: 0, g: 0, b: 0, a: 0}
+  cloudTexture: {fileID: 2800000, guid: 077c06a5eb84292448e7c73111911e84, type: 3}
+  g: 8
+  w: 25
+  a: 8
+  gfreeze: 0
+  starCount: 35
 --- !u!1 &1962617395
 GameObject:
   m_ObjectHideFlags: 0
